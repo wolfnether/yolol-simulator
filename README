@@ -1,0 +1,6 @@
+ yolol-simulator -n <network_file>
+
+ commands:
+ "parse" : parsing yolol script of all yolol chips across the network_file
+ "step" : execute one line of all yolol chips
+ "globals" : print all the globals

@@ -7,3 +7,5 @@ edition = "2018"
 
 [dependencies]
 "yolol-devices" = {git = 'https://github.com/wolfnether/yolol-devices'}
+"yolol-runner" = {git = 'https://github.com/wolfnether/yolol-runner'}
+"clap" = "2.33.3"
