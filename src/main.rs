@@ -5,6 +5,7 @@ use clap::App;
 use clap::Arg;
 use yolol_devices::Networks;
 use yolol_runner::YololRunner;
+use yolol_yaml_deserializer::YamlDocument;
 
 fn main() {
     let matches = App::new("Yolol simulator")
@@ -17,7 +18,8 @@ fn main() {
         .get_matches();
 
     let network_file = matches.value_of("network_file").unwrap();
-    if let Some(networks) = &mut Networks::<YololRunner>::deserialize(network_file) {
+    let parser = YamlDocument::new(network_file).unwrap();
+    if let Some(networks) = &mut Networks::<YololRunner>::deserialize(&*parser[0]) {
         let mut buffer = String::new();
         let mut old_buffer = String::new();
         while stdin().lock().read_line(&mut buffer).is_ok() {
@@ -27,7 +29,10 @@ fn main() {
             }
             match buffer.as_str() {
                 "p" | "parse" => networks.parse_all_chip_file(),
-                "n" | "next" => networks.step(),
+                "n" | "next" => {
+                    networks.step();
+                    println!("{:?}", networks)
+                }
                 "g" | "globals" => networks.print_globals(),
                 "" => (),
                 v => println!("unknown command: {}", v),

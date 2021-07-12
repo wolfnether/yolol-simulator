@@ -1,27 +1,9 @@
 version: "1.0.0"
 
 networks:
- - &primary
-   extensions:
-     fields:
-      - foo: "bar"
-      - bash: "baz"
-     stuff: "whatever"
-   name: "primary network"
-   remark: "Primary data backbone of the ship"
-   devices:
-    - !radio_transmitter
-      prefix: pre
-      suffix: post
-      TransmitMessage: tm
-      TransmitRange: tr
-      Frequency: fq
-    - !cargo_beam
-      prefix: range
-
- - &hull_integrity
-   name: "integrity"
-   remark: "wires on hull plating to detect breaches"
+ - &test_bench
+   name: "test_bench"
+   remark: "test a lot"
    devices:
    - !rack
      prefix: "rack1_"
@@ -32,20 +14,9 @@ networks:
          ChipField1: "one"
        slot2:
          !yolol_chip
-         script: foo.lol
+         script: test.lol
        slot3:
-         !yolol_chip
-         script: foo.lol
-         prefix: pre
-         suffix: post
-         ChipWait: wait
+         !memory_chip
 
- - &bridge
-   name: "bridge"
-   remark: "Data network for bridge terminals"
 
 relays:
- - src: *hull_integrity
-   dst: *primary
- - src: *bridge
-   dst: *primary
